@@ -1,0 +1,28 @@
+
+<mat-icon aria-hidden="false" style="cursor: pointer" aria-label="Edit"(click)="update()" *ngIf="updateFlag==true">edit</mat-icon>
+<span *ngIf="updateFlag==true">&nbsp;&nbsp;</span>
+
+<mat-icon aria-hidden="false" style="cursor: pointer" aria-label="Delete"(click)="delete()" *ngIf="deleteFlag==true">delete</mat-icon>
+<span *ngIf="deleteFlag==true">&nbsp;&nbsp;</span>
+
+<mat-icon aria-hidden="false" style="cursor: pointer" aria-label="Detail"(click)="show()" *ngIf="detailFlag==true">info</mat-icon>
+<span *ngIf="detailFlag==true">&nbsp;&nbsp;</span>
+
+<mat-icon aria-hidden="false" style="cursor: pointer" aria-label="Next"(click)="next()" *ngIf="nextFlag==true">flip_to_front</mat-icon>
+
+
+<button [ngClass]="params.buttonClass" style="cursor: pointer" (click)="btnClick()" *ngIf="params.buttonFlag==true">
+  <span [innerHTML]="params.buttonIcon"></span> {{params.buttonLabel}}</button>
+
+
+<!--
+https://www.angularjswiki.com/angular/angular-material-icons-list-mat-icon-list/
+save
+info
+flip_to_front
+lunch
+list
+open_in_new
+check
+close
+-->

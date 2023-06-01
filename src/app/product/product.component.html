@@ -1,0 +1,105 @@
+<!--app-pagetitle title="Category Setup" [breadcrumbItems]="breadCrumbItems"></app-pagetitle-->
+{{productFg.value | json}}
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-4">Product save/update</h5>
+        <form [formGroup]="productFg">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">Product Name<span class="required text-danger">*</span> </label>
+                <input formControlName="productName" class="form-control" />
+                <div *ngIf="productFg.controls['productName'].touched
+                        && productFg.controls['productName'].errors
+                        && productFg.controls['productName'].errors['required']" style="color:red">
+                  This field is required.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="form-label">Category </label>
+                <ng-select [items]="categoryDtoList"
+                           bindLabel="categoryName" bindValue="id"
+                           formControlName="categoryId" name="categoryId"
+                           (change)="onChangeCategory($event)"
+                           id="categoryId">
+                </ng-select>
+                <!--<input formControlName="categoryId" class="form-control" />-->
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-form-label">Supplier</label>
+                <ng-select [items]="supplierDtoList"
+                           bindLabel="companyName" bindValue="id"
+                           formControlName="supplierId" name="supplierId"
+                           (change)="onChangeSupplier($event)"
+                           id="supplierId">
+                </ng-select>
+                <!--<input formControlName="supplierId" class="form-control" />-->
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-form-label">Unit Price</label>
+                <input formControlName="unitPrice" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="save-area">
+            <button type="button" class="btn btn-outline-warning" (click)="onClearForm()">Reset</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light ms-3" *ngIf="!productFg.value['updateMode']"
+                    [disabled]="!productFg['valid'] "
+                    (click)="onSaveProduct()">Save</button>
+
+            <button type="button" class="btn btn-primary waves-effect waves-light ms-3"
+                    [disabled]="!productFg['valid'] " *ngIf="productFg.value['updateMode']"
+                    (click)="onUpdateProduct()">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card">
+
+      <div class="card-body">
+        <h5 class="card-title mb-4">Product search</h5>
+        <form [formGroup]="productSearchFg">
+          <div >
+            <div class="row">
+              <div class="col-md-12">
+                <input type="text" class="form-control" formControlName="searchTerm" placeholder="Search Term"
+                       (keyup.enter)="searchProductPage({page:0,size:10})" aria-label="Small" />
+              </div>
+            </div>
+
+            <div class="input-group-append mb-2">
+              <button class="btn btn-primary" (click)="searchProductPage({page: 0, size:10})"
+                      type="button"  [disabled]="spinner">
+                      <span *ngIf="spinner"><span class="spinner-border spinner-border-sm" role="status"
+                                                  aria-hidden="true">
+                        </span>&nbsp;&nbsp;</span>
+                <span>Search</span> <i class="bx bx-search-alt align-middle"></i>
+              </button>
+              <button type="button" class="btn btn-outline-warning ms-2" (click)="onClearSearch()">Reset</button>
+            </div></div>
+        </form>
+        <data-grid [columnDefs]="columnDefProduct" [page]="productDtoPage"
+                   (getPage)="searchProductPage($event)"></data-grid>
+      </div>
+    </div>
+  </div>
+</div>
+

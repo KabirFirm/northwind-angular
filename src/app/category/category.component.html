@@ -1,0 +1,85 @@
+<!--app-pagetitle title="Category Setup" [breadcrumbItems]="breadCrumbItems"></app-pagetitle-->
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-4">Department save/update</h5>
+        <form [formGroup]="categoryFg">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="col-form-label">Category Name<span class="required text-danger">*</span> </label>
+                <input formControlName="categoryName" class="form-control" />
+                <div *ngIf="categoryFg.controls['categoryName'].touched
+                        && categoryFg.controls['categoryName'].errors
+                        && categoryFg.controls['categoryName'].errors['required']" style="color:red">
+                  This field is required.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-form-label">Description </label>
+                <input formControlName="description" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-form-label">Picture</label>
+                <input formControlName="picture" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="save-area">
+            <button type="button" class="btn btn-outline-warning" (click)="onClearForm()">Reset</button>
+            <button type="button" class="btn btn-primary waves-effect waves-light ms-3" *ngIf="!categoryFg.value['updateMode']"
+                    [disabled]="!categoryFg['valid'] "
+                    (click)="onSaveCategory()">Save</button>
+
+            <button type="button" class="btn btn-primary waves-effect waves-light ms-3"
+                    [disabled]="!categoryFg['valid'] " *ngIf="categoryFg.value['updateMode']"
+                    (click)="onUpdateCategory()">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card">
+
+      <div class="card-body">
+        <h5 class="card-title mb-4">Category search</h5>
+        <form [formGroup]="categorySearchFg">
+          <div >
+            <div class="row">
+              <div class="col-md-12">
+                <input type="text" class="form-control" formControlName="searchTerm" placeholder="Search Term"
+                       (keyup.enter)="searchCategoryPage({page:0,size:10})" aria-label="Small" />
+              </div>
+            </div>
+
+            <div class="input-group-append mb-2">
+              <button class="btn btn-primary" (click)="searchCategoryPage({page: 0, size:10})"
+                      type="button"  [disabled]="spinner">
+                      <span *ngIf="spinner"><span class="spinner-border spinner-border-sm" role="status"
+                                                  aria-hidden="true">
+                        </span>&nbsp;&nbsp;</span>
+                <span>Search</span> <i class="bx bx-search-alt align-middle"></i>
+              </button>
+              <button type="button" class="btn btn-outline-warning ms-2" (click)="onClearSearch()">Reset</button>
+            </div></div>
+        </form>
+        <data-grid [columnDefs]="columnDefCategory" [page]="categoryDtoPage"
+                   (getPage)="searchCategoryPage($event)"></data-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
